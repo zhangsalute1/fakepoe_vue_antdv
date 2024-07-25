@@ -42,6 +42,7 @@
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { registerApi } from '@/api/register.js';
+import { message } from 'ant-design-vue';
 const labelCol = {
   style: {
     width: '130px'
@@ -82,8 +83,12 @@ const onFinish = (values) => {
   registerApi(values)
     .then((res) => {
       console.log(res, 'res');
+      if (res.code === 201) {
+        message.success(res.message);
+      }
     })
     .catch((error) => {
+      message.error(error.response.data.message);
       console.log('注册过程中出现错误', error);
     });
 };

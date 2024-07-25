@@ -36,6 +36,7 @@
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { loginApi } from '@/api/loginApi';
+import { message } from 'ant-design-vue';
 const formState = reactive({
   username: '',
   password: '',
@@ -46,9 +47,13 @@ const onFinish = (values) => {
   loginApi(values)
     .then((data) => {
       console.log(data);
+      if (data.code === 200) {
+        message.success(data.message);
+      }
     })
     .catch((error) => {
-      console.log('登录过程中出现错误', error);
+      message.error(error.response.data.message);
+      console.log('登录过程中出现错误', error.response.data);
     });
 };
 const onFinishFailed = (errorInfo) => {
