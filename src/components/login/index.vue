@@ -37,6 +37,8 @@ import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { loginApi } from '@/api/loginApi';
 import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const formState = reactive({
   username: '',
   password: '',
@@ -49,6 +51,7 @@ const onFinish = (values) => {
       console.log(data);
       if (data.code === 200) {
         message.success(data.message);
+        router.push('/layout');
       }
     })
     .catch((error) => {
