@@ -35,14 +35,21 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-
+import { loginApi } from '@/api/loginApi';
 const formState = reactive({
   username: '',
   password: '',
   remember: true
 });
 const onFinish = (values) => {
-  console.log('Success:', values);
+  console.log(values, 'values');
+  loginApi(values)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log('登录过程中出现错误', error);
+    });
 };
 const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);

@@ -41,6 +41,7 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { registerApi } from '@/api/register.js';
 const labelCol = {
   style: {
     width: '130px'
@@ -78,7 +79,13 @@ const confirmPasswordRules = [
 ];
 
 const onFinish = (values) => {
-  console.log('Success:', values);
+  registerApi(values)
+    .then((res) => {
+      console.log(res, 'res');
+    })
+    .catch((error) => {
+      console.log('注册过程中出现错误', error);
+    });
 };
 
 const onFinishFailed = (errorInfo) => {
