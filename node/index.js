@@ -3,7 +3,7 @@ import cors from "cors";
 import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 import mysql from 'mysql2/promise';
-
+import axios from "axios";
 const app = express();
 const PORT = 3000;
 
@@ -61,6 +61,23 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: '登录过程中出现错误', code: 500 });
     }
 });
+const API_KEY = 'sk-gVi9uSt36LTbxgwKF4016a753a324f7e9f7cCd7120Ba6a14';
+const API_URL = 'https://api.gptapi.us/v1/chat/completions';
+//chat聊天
+app.post('/chat', async (req, res) => {
+    console.log(req.body, 'chat接口接收到的信息');
+    const config = {
+        headers: { 'Authorization': `Bearer ${API_KEY}` },
+    };
+    axios.post(API_URL, req.body, config).then((apiRes) => {
+        console.log(apiRes.data);
+        res.status(200).json({ respones: apiRes.data })
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).json({ message: '服务器内部错误', code: 500 });
+    })
+
+})
 
 app.listen(PORT, () => {
     console.log(`服务器运行在 http://localhost:${PORT}`);

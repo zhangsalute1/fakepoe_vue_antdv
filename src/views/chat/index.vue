@@ -1,9 +1,9 @@
 <template>
   <div class="container" ref="container">
     <a-list size="large" :data-source="messages" :split="false">
-      <template #header>
+      <!-- <template #header>
         <div>输入问题并点击“发送”按钮,即可与ChatGPT进行互动,快来体验吧!</div>
-      </template>
+      </template> -->
       <template #renderItem="{ item }">
         <a-list-item>{{ item }}</a-list-item>
       </template>
@@ -17,14 +17,25 @@
 </template>
 <script setup>
 import { ref, nextTick } from 'vue';
-
+import { chatApi } from '@/api/chatApi';
 const messages = ref([]);
 const inputValue = ref('');
 const container = ref(null);
 
 const sendMessage = () => {
   if (inputValue.value.trim()) {
+    //chatapi请求参数
+    const parameter = {
+      messages: [{ role: 'system', content: inputValue.value }],
+      model: 'gpt-4o',
+      stream: true
+    };
+    chatApi(parameter).then((response) => {
+      console.log(response.respones);
+    });
     messages.value.push(inputValue.value);
+
+    //清空输入框内容，滚动条到最底下
     inputValue.value = '';
     nextTick(() => {
       if (container.value) {

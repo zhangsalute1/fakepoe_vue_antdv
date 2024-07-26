@@ -4,13 +4,13 @@
       <Aside></Aside>
     </div>
     <div class="main">
-      <Main></Main>
+      <chat></chat>
     </div>
   </div>
 </template>
 <script setup>
 import Aside from './aside.vue';
-import Main from './main.vue';
+import chat from '@/views/chat/index.vue';
 </script>
 <style lang="scss" scoped>
 .container {
